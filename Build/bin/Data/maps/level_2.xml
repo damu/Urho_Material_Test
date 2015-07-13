@@ -1,0 +1,15 @@
+<xml>
+  <static_model name="Data/Models/level_2" pos_x="0" pos_y="0" pos_z="0" />
+  <player pos_x="4" pos_y="10" pos_z="-5" />
+  <flag pos_x="1.8" pos_y="15.5" pos_z="626.8" />
+  <flag pos_x="1.5" pos_y="15.9" pos_z="579.6" />
+  <flag pos_x="2.1" pos_y="14.2" pos_z="490.0" />
+  <flag pos_x="2.9" pos_y="41.3" pos_z="451.6" />
+  <flag pos_x="75" pos_y="60.5" pos_z="376.1" />
+  <flag pos_x="77.7" pos_y="10.7" pos_z="478.6" />
+  <flag pos_x="77.7" pos_y="10.7" pos_z="525.6" />
+  <flag pos_x="74.4" pos_y="20.1" pos_z="249.4" />
+  <flag pos_x="1.8" pos_y="-5.2" pos_z="410" />
+  <torch pos_x="74.4" pos_y="-43.6" pos_z="249.4" />
+  <sound name="Music/Lord of the Land.ogg" />
+</xml>

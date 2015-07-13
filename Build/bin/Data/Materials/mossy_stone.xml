@@ -1,0 +1,9 @@
+<material>
+	<technique name="Techniques/DiffNormal.xml"/>
+	<texture name="Textures/blender_diff.png" unit="diffuse"/>
+	<texture name="Textures/blender_norm.png" unit="normal"/>
+	<texture name="Textures/blender_spec.png" unit="specular"/>
+	<parameter name="MatDiffColor" value="1.0 1.0 1.0 1"/>
+	<parameter name="MatSpecColor" value="2.5 2.5 2.5 30"/>
+</material>
+

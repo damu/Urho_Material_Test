@@ -1,0 +1,12 @@
+<material>
+    <technique name="Techniques/TerrainBlend_quad_dsnh.xml" />
+    <texture unit="0" name="Textures/splatting.png" />
+    <texture unit="1" name="Textures/blender_grass_quad.jpg"/>
+    <texture unit="2" name="Textures/blender_bricks_quad.jpg"/>
+    <texture unit="3" name="Textures/TerrainDetail3.dds" />
+    <parameter name="MatSpecColor1" value="1.0 1.0 1.0 50" />
+    <parameter name="MatSpecColor2" value="2.5 2.5 2.5 150" />
+    <parameter name="MatSpecColor3" value="1.5 1.5 1.5 100" />
+    <parameter name="MatSpecColor" value="1.5 1.5 1.5 100" />
+    <parameter name="DetailTiling" value="256 256" />
+</material>
