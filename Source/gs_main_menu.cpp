@@ -118,7 +118,7 @@ gs_main_menu::gs_main_menu() : game_state()
         light->SetShadowCascade(CascadeParameters(20.0f,60.0f,180.0f,560.0f,100.0f,100.0f));
         light->SetShadowResolution(1.0);
         light->SetBrightness(1.0);
-        light->SetColor(Color(1.0,0.6,0.3,1));
+        light->SetColor(Color(1.0,0.9,0.8,1));
         lightNode->SetDirection(Vector3::FORWARD);
         lightNode->Yaw(-150);   // horizontal
         lightNode->Pitch(30);   // vertical
@@ -156,9 +156,6 @@ void gs_main_menu::update(StringHash eventType,VariantMap& eventData)
 {
     float timeStep=eventData[Update::P_TIMESTEP].GetFloat();
 
-
-
-
     static double last_second=0;
     static double last_second_frames=1;
     static timer this_second;
@@ -178,12 +175,8 @@ void gs_main_menu::update(StringHash eventType,VariantMap& eventData)
         str.append(std::to_string(last_second_frames/last_second).substr(0,6));
         str.append(" FPS ");
     }
-    //    cout<<std::to_string(last_second_frames/last_second)<<endl;
     String s(str.c_str(),str.size());
     window_text->SetText(s);
-
-
-
 
     node_rotating_flag->Rotate(Quaternion(0,64*timeStep,0));
 

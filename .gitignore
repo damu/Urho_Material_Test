@@ -1,2 +1,11 @@
-Build/
+Build/CMakeFiles/
 Build/bin/*.exe
+Build/bin/Urho3D.log
+Build/cmake_install.cmake
+Build/CMakeCache.txt
+Build/libUrho_Material_Test.dll.a
+Build/Makefile
+Build/Urho_Material_Test.cbp
+Build/Urho_Material_Test.layout
+Build/Urho-Sample-Platformer.cbp
+Build/Urho-Sample-Platformer.layout
