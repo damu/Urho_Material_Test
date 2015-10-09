@@ -1,0 +1,12 @@
+<material>
+    <technique name="Techniques/DiffNormalSpecParallaxDemoVer.xml" quality="0" />
+	<texture name="Textures/grass_parallax_diff.png" unit="diffuse"/>
+	<texture name="Textures/grass_parallax_norm.png" unit="normal"/>
+	<texture name="Textures/grass_parallax_diff.png" unit="specular"/>
+	<texture name="Textures/grass_parallax_height.png" unit="emissive"/>
+	<parameter name="ParallaxIters" value="8" />
+	<parameter name="ParallaxDisplacement" value=".015" />
+	<parameter name="OffsetLimit" value=".95" />
+	<parameter name="MatDiffColor" value="1 1 1 1" />
+    <parameter name="MatSpecColor" value="1.0 1.0 1.0 150" />
+</material>
