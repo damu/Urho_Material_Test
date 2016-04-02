@@ -33,7 +33,7 @@
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Graphics/Terrain.h>
 
-#include "urho3d_3dgui.h"
+//#include "urho3d_3dgui.h"
 
 /// The main menu displayed when starting the game.
 class gs_main_menu : public game_state
@@ -43,13 +43,13 @@ public:
     Urho3D::Text* window_text;
     Urho3D::Window* window;
     Urho3D::Terrain* terrain;
-    std::unique_ptr<urho3d_3dgui> gui;
+    //std::unique_ptr<urho3d_3dgui> gui;
 
     gs_main_menu();
     void update(Urho3D::StringHash eventType,Urho3D::VariantMap& eventData);
     void HandleKeyDown(Urho3D::StringHash eventType,Urho3D::VariantMap& eventData);
 
-    virtual const Urho3D::String& GetTypeName() const {static Urho3D::String name("gs_main_menu");return name;}   // this could be correct
+    URHO3D_OBJECT(gs_main_menu,game_state);
 };
 
 #endif // GS_MAIN_MENU_H

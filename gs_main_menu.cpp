@@ -1,4 +1,5 @@
 #include "gs_main_menu.h"
+#include <Urho3D/Engine/DebugHud.h>
 
 using namespace Urho3D;
 using namespace std;
@@ -11,6 +12,7 @@ gs_main_menu::gs_main_menu() : game_state()
 
     // create a transparent window with some text to display things like help and FPS
     {
+        XMLFile* style = globals::instance()->cache->GetResource<XMLFile>("UI/DefaultStyle.xml");
         window=new Window(context_);
         gui_elements.push_back(window);
         GetSubsystem<UI>()->GetRoot()->AddChild(window);
@@ -24,6 +26,9 @@ gs_main_menu::gs_main_menu() : game_state()
         window_text->SetColor(Color(.8,.85,.9));
         window_text->SetAlignment(HA_LEFT,VA_TOP);
         window->AddChild(window_text);
+
+        DebugHud* debugHud=globals::instance()->engine->CreateDebugHud();
+        debugHud->SetDefaultStyle(style);
     }
 
     // a rotating flag
@@ -187,17 +192,17 @@ gs_main_menu::gs_main_menu() : game_state()
         terrain->SetOccluder(true);
     }
 
-    gui.reset(new urho3d_3dgui(globals::instance()->camera,globals::instance()->cache));
-    gui->add_box(Vector3(0,0,0),Vector3(0.5,0.2,1))->SetColor(Color(.0,.15,.3,.5));
+//    gui.reset(new urho3d_3dgui(globals::instance()->camera,globals::instance()->cache));
+//    gui->add_box(Vector3(0,0,0),Vector3(0.5,0.2,1))->SetColor(Color(.0,.15,.3,.5));
 
-    SubscribeToEvent(E_UPDATE,HANDLER(gs_main_menu,update));
-    SubscribeToEvent(E_KEYDOWN,HANDLER(gs_main_menu,HandleKeyDown));
+    SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(gs_main_menu,update));
+    SubscribeToEvent(E_KEYDOWN,URHO3D_HANDLER(gs_main_menu,HandleKeyDown));
 }
 
 void gs_main_menu::update(StringHash eventType,VariantMap& eventData)
 {
-    if(gui)
-        gui->resize();
+//    if(gui)
+//        gui->resize();
     float timeStep=eventData[Update::P_TIMESTEP].GetFloat();
 
     static double last_second=0;
@@ -271,4 +276,20 @@ void gs_main_menu::HandleKeyDown(StringHash eventType,VariantMap& eventData)
         window->SetVisible(!window->IsVisible());
     else if(key==KEY_T)
         globals::instance()->camera->SetFillMode(globals::instance()->camera->GetFillMode()==FILL_WIREFRAME?FILL_SOLID:FILL_WIREFRAME);
+    else if(key==KEY_F2)
+    {
+        DebugHud* debugHud=GetSubsystem<DebugHud>();
+        if (debugHud->GetMode()!=DEBUGHUD_SHOW_ALL)
+            debugHud->SetMode(DEBUGHUD_SHOW_ALL);
+        else
+            debugHud->SetMode(DEBUGHUD_SHOW_NONE);
+    }
+    else if (key == KEY_F3)
+    {
+        DebugHud* debugHud=GetSubsystem<DebugHud>();
+        if (debugHud->GetMode()!=DEBUGHUD_SHOW_ALL_MEMORY)
+            debugHud->SetMode(DEBUGHUD_SHOW_ALL_MEMORY);
+        else
+            debugHud->SetMode(DEBUGHUD_SHOW_NONE);
+    }
 }

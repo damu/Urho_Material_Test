@@ -44,14 +44,14 @@
 
 using namespace Urho3D;
 
-/// USP main class mainly used for setup. The control is then given to the game states (starting with gs_main_menu).
-class USP : public Application
+/// UMT main class mainly used for setup. The control is then given to the game states (starting with gs_main_menu).
+class UMT : public Application
 {
 public:
     SharedPtr<Scene> scene_;
     Node* cameraNode_;
 
-    USP(Context * context) : Application(context) {}
+    UMT(Context * context) : Application(context) {}
 
     virtual void Setup()
     {
@@ -88,17 +88,8 @@ public:
 
         RenderPath* effectRenderPath=viewport->GetRenderPath();
         effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/AutoExposure.xml"));
-        //effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/Blur_radial.xml"));
-        //effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/BloomHDR.xml"));
         effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/BloomHDR_r2.xml"));
-        //effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/BloomHDR_r4.xml"));
-        //effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/BloomHDR_r8.xml"));
-        //effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/BloomHDR_r16.xml"));
-        //effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/BloomHDR_r32.xml"));
-        //effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/BloomHDR_r64.xml"));
-        //effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/ColorCorrection.xml"));
         effectRenderPath->Append(cache->GetResource<XMLFile>("PostProcess/FXAA2.xml"));
-        //effectRenderPath.SetEnabled("GammaCorrection",false);
 
         Node* zoneNode=scene_->CreateChild("Zone");
         Zone* zone=zoneNode->CreateComponent<Zone>();
@@ -107,7 +98,7 @@ public:
         zone->SetFogEnd(200000.0f);
         zone->SetAmbientColor(Color(0.1,0.1,0.1));
 
-        SubscribeToEvent(E_KEYDOWN,HANDLER(USP,HandleKeyDown));
+        SubscribeToEvent(E_KEYDOWN,URHO3D_HANDLER(UMT,HandleKeyDown));
 
         // fill our game state shared variables
         globals::instance()->cache=cache;
@@ -137,4 +128,4 @@ public:
     }
 };
 
-DEFINE_APPLICATION_MAIN(USP)
+URHO3D_DEFINE_APPLICATION_MAIN(UMT)
