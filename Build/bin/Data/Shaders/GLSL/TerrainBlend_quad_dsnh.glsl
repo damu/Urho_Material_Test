@@ -114,32 +114,32 @@ void PS()
     vec3 weights = texture2D(sWeightMap0, vTexCoord.xy).rgb;
 
     // blend with height map
-    weights.r*=texture(sDetailMap1, tex_coord_height,0).r;
-    weights.g*=texture(sDetailMap1, tex_coord_height,3).r;
-    weights.b*=texture(sDetailMap1, tex_coord_height,6).r;
+//    weights.r*=texture(sDetailMap1, vec3(vDetailTexCoord,2)).r;
+//    weights.g*=texture(sDetailMap1, vec3(vDetailTexCoord,5)).r;
+//    weights.b*=texture(sDetailMap1, vec3(vDetailTexCoord,8)).r;
 
     float sumWeights = weights.r + weights.g + weights.b;
     weights /= sumWeights;
     vec4 diffColor = vec4(
-        cMatDiffColor1 * weights.r * texture2D(sDetailMap1, vTexCoord, 0) +
-        cMatDiffColor2 * weights.g * texture2D(sDetailMap1, vTexCoord, 3) +
-        cMatDiffColor3 * weights.b * texture2D(sDetailMap1, vTexCoord, 6)
+        cMatDiffColor1 * weights.r * texture2D(sDetailMap1, vec3(vDetailTexCoord,0)) +
+        cMatDiffColor2 * weights.g * texture2D(sDetailMap1, vec3(vDetailTexCoord,3)) +
+        cMatDiffColor3 * weights.b * texture2D(sDetailMap1, vec3(vDetailTexCoord,6))
     );
 //    vec4 diffColor=vec4(1,1,1,1);
 
     // Get material specular albedo
     vec4 specColor=vec4(
-        weights.r * cMatSpecColor1.rgb * texture2D(sDetailMap1, vTexCoord, 3).rgb +
-        weights.g * cMatSpecColor2.rgb * texture2D(sDetailMap1, vTexCoord, 5).rgb +
-        weights.b * cMatSpecColor3.rgb * texture2D(sDetailMap1, vTexCoord, 8).rgb,
+        weights.r * cMatSpecColor1.rgb * texture2D(sDetailMap1, vec3(vDetailTexCoord,2)).rgb +
+        weights.g * cMatSpecColor2.rgb * texture2D(sDetailMap1, vec3(vDetailTexCoord,5)).rgb +
+        weights.b * cMatSpecColor3.rgb * texture2D(sDetailMap1, vec3(vDetailTexCoord,8)).rgb,
         cMatSpecColor1.a*weights.r+cMatSpecColor2.a*weights.g+cMatSpecColor3.a*weights.b);
     //vec4 specColor=vec4(1,1,1,1);
 
     // Get normal
     vec3 normal=normalize(mat3(vTangent.xyz, vec3(vTexCoord.zw, vTangent.w), vNormal)*DecodeNormal(
-        weights.r * texture2D(sDetailMap1, vTexCoord, 2) +
-        weights.g * texture2D(sDetailMap1, vTexCoord, 4) +
-        weights.b * texture2D(sDetailMap1, vTexCoord, 7)
+        weights.r * texture2D(sDetailMap1, vec3(vDetailTexCoord,1)) +
+        weights.g * texture2D(sDetailMap1, vec3(vDetailTexCoord,4)) +
+        weights.b * texture2D(sDetailMap1, vec3(vDetailTexCoord,7))
     ).rgb);
 //vec3 normal=vNormal;
 
