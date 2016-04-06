@@ -1,8 +1,0 @@
-<material>
-	<technique name="Techniques/DiffUnlit.xml"/>
-	<texture name="Textures/rock_diff.png" unit="diffuse"/>
-	<texture name="Textures/rock_norm.png" unit="normal"/>
-	<texture name="Textures/rock_spec.png" unit="specular"/>
-	<parameter name="MatDiffColor" value="10 10 10 10"/>
-	<parameter name="MatSpecColor" value="1 1 1 50"/>
-</material>

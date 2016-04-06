@@ -1,11 +1,17 @@
 <texturearray>
     <layer name="Textures/blender_grass_diff.jpg" />
-    <layer name="Textures/blender_grass_norm.jpg" />
-    <layer name="Textures/blender_grass_spec.jpg" />
     <layer name="Textures/blender_bricks_diff.jpg" />
+    <layer name="Textures/blender_sand_diff.jpg" />
+
+    <layer name="Textures/blender_grass_norm.jpg" />
     <layer name="Textures/blender_bricks_norm.jpg" />
+    <layer name="Textures/blender_sand_norm.jpg" />
+
+    <layer name="Textures/blender_grass_spec.jpg" />
     <layer name="Textures/blender_bricks_spec.jpg" />
-    <layer name="Textures/mossy_stone_diff.jpg" />
-    <layer name="Textures/mossy_stone_norm.jpg" />
-    <layer name="Textures/mossy_stone_spec.jpg" />
+    <layer name="Textures/blender_sand_spec.jpg" />
+
+    <layer name="Textures/blender_grass_height.jpg" />
+    <layer name="Textures/blender_bricks_height.jpg" />
+    <layer name="Textures/blender_sand_height.jpg" />
 </texturearray>

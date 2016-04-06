@@ -59,7 +59,7 @@ public:
         engineParameters_["WindowWidth"]=1280;
         engineParameters_["WindowHeight"]=720;
         engineParameters_["WindowResizable"]=true;
-        //engineParameters_["Multisample"]=16;
+        engineParameters_["Multisample"]=16;
     }
 
     virtual void Start()
@@ -73,7 +73,7 @@ public:
 
         cameraNode_=scene_->CreateChild("Camera");
         Camera* camera=cameraNode_->CreateComponent<Camera>();
-        camera->SetFarClip(50000);
+        camera->SetFarClip(20000);
         camera->SetNearClip(0.01);
         camera->SetFov(75);
         SoundListener* listener=cameraNode_->CreateComponent<SoundListener>();
@@ -94,8 +94,8 @@ public:
         Node* zoneNode=scene_->CreateChild("Zone");
         Zone* zone=zoneNode->CreateComponent<Zone>();
         zone->SetBoundingBox(BoundingBox(-50000.0f,50000.0f));
-        zone->SetFogStart(100000.0f);
-        zone->SetFogEnd(200000.0f);
+        zone->SetFogStart(10000.0f);
+        zone->SetFogEnd(20000.0f);
         zone->SetAmbientColor(Color(0.1,0.1,0.1));
 
         SubscribeToEvent(E_KEYDOWN,URHO3D_HANDLER(UMT,HandleKeyDown));

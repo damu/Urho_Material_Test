@@ -1,5 +1,31 @@
 #include "gs_main_menu.h"
+
+#include <Urho3D/Graphics/Light.h>
+#include <Urho3D/Graphics/Model.h>
+#include <Urho3D/Graphics/StaticModel.h>
+#include <Urho3D/Graphics/Material.h>
+#include <Urho3D/Graphics/Skybox.h>
+#include <Urho3D/UI/Button.h>
+#include <Urho3D/UI/BorderImage.h>
+#include <Urho3D/UI/CheckBox.h>
+#include <Urho3D/UI/Font.h>
+#include <Urho3D/UI/UI.h>
+#include <Urho3D/UI/UIEvents.h>
+#include <Urho3D/UI/LineEdit.h>
+#include <Urho3D/UI/ListView.h>
+#include <Urho3D/Engine/Application.h>
 #include <Urho3D/Engine/DebugHud.h>
+#include <Urho3D/Core/CoreEvents.h>
+#include <Urho3D/IO/FileSystem.h>
+#include <Urho3D/Input/Input.h>
+#include <Urho3D/Input/InputEvents.h>
+#include <Urho3D/Audio/Sound.h>
+#include <Urho3D/Audio/SoundSource3D.h>
+#include <Urho3D/Audio/SoundListener.h>
+#include <Urho3D/Audio/Audio.h>
+#include <Urho3D/Graphics/ParticleEmitter.h>
+#include <Urho3D/Graphics/ParticleEffect.h>
+#include <Urho3D/Graphics/Terrain.h>
 
 using namespace Urho3D;
 using namespace std;
@@ -9,6 +35,7 @@ gs_main_menu::gs_main_menu() : game_state()
     Node* node_camera=globals::instance()->camera->GetNode();
     node_camera->SetPosition(Vector3(0,0,0));
     node_camera->SetDirection(Vector3::FORWARD);
+node_camera->SetPosition(Vector3(-26.7,7,-48.6));
 
     // create a transparent window with some text to display things like help and FPS
     {
@@ -31,21 +58,6 @@ gs_main_menu::gs_main_menu() : game_state()
         debugHud->SetDefaultStyle(style);
     }
 
-    // a rotating flag
-    {
-        node_rotating_flag=globals::instance()->scene->CreateChild("Flag");
-        nodes.push_back(node_rotating_flag);
-        node_rotating_flag->SetPosition(Vector3(100,-0.5,6));
-        StaticModel* boxObject=node_rotating_flag->CreateComponent<StaticModel>();
-        boxObject->SetModel(globals::instance()->cache->GetResource<Model>("Models/flag.mdl"));
-        boxObject->SetMaterial(0,globals::instance()->cache->GetResource<Material>("Materials/flag_pole.xml"));
-        boxObject->SetMaterial(1,globals::instance()->cache->GetResource<Material>("Materials/flag_cloth.xml"));
-        boxObject->SetCastShadows(true);
-
-        ParticleEmitter* emitter=node_rotating_flag->CreateComponent<ParticleEmitter>();
-        emitter->SetEffect(globals::instance()->cache->GetResource<ParticleEffect>("Particle/flag.xml"));
-    }
-
     // skybox
     {
         Node* skyNode=globals::instance()->scene->CreateChild("Sky");
@@ -64,7 +76,7 @@ gs_main_menu::gs_main_menu() : game_state()
         node->SetPosition(pos);
 
         StaticModel* boxObject=node->CreateComponent<StaticModel>();
-        set_model(boxObject,globals::instance()->cache,"Data/Models/torch");
+        set_model(boxObject,globals::instance()->cache,"Models/torch");
         boxObject->SetCastShadows(true);
         boxObject->SetOccludee(true);
         boxObject->SetShadowDistance(200);
@@ -99,11 +111,11 @@ gs_main_menu::gs_main_menu() : game_state()
     {
         Node* node=globals::instance()->scene->CreateChild("Light");
         nodes.push_back(node);
-        Vector3 pos(Vector3(3,5.5,106));
+        Vector3 pos(Vector3(3,2.5,106));
         node->SetPosition(pos);
 
         StaticModel* boxObject=node->CreateComponent<StaticModel>();
-        set_model(boxObject,globals::instance()->cache,"Data/Models/torch");
+        set_model(boxObject,globals::instance()->cache,"Models/torch");
         boxObject->SetCastShadows(true);
         boxObject->SetOccludee(true);
         boxObject->SetShadowDistance(200);
@@ -136,19 +148,18 @@ gs_main_menu::gs_main_menu() : game_state()
         sound_torch_source->Play(sound_torch);
     }
 
-    // grid of 400 cubes, known from the basic sample application at the Urho Wiki
-    //if(false)
-    for(int x=-30;x<30;x+=3)
-        for(int y=70;y<130;y+=3)
+    // grid of cubes
+    for(int x=-20;x<20;x+=3)
+        for(int y=40;y<80;y+=3)
         {
             Node* boxNode_=globals::instance()->scene->CreateChild("Box");
             nodes.push_back(boxNode_);
-            boxNode_->SetPosition(Vector3(x,5,y));
+            boxNode_->SetPosition(Vector3(x,3,y));
             boxNode_->SetScale(Vector3(3,3,3));
             StaticModel* boxObject=boxNode_->CreateComponent<StaticModel>();
             boxObject->SetModel(globals::instance()->cache->GetResource<Model>("Models/Box.mdl"));
             boxObject->SetMaterial(globals::instance()->cache->GetResource<Material>("Materials/bricks.xml"));
-            //boxObject->SetCastShadows(true);
+            boxObject->SetCastShadows(true);
         }
 
     // sun
@@ -182,18 +193,15 @@ gs_main_menu::gs_main_menu() : game_state()
     {
         Node* terrainNode=globals::instance()->scene->CreateChild("Terrain");
         terrainNode->SetPosition(Vector3(3.0f,-0.4f));
-        terrain=terrainNode->CreateComponent<Terrain>();
+        Terrain* terrain=terrainNode->CreateComponent<Terrain>();
         terrain->SetPatchSize(128);
         terrain->SetSpacing(Vector3(2,0.5,2));
         terrain->SetSmoothing(true);
         terrain->SetHeightMap(globals::instance()->cache->GetResource<Image>("Textures/HeightMap.png"));
-        terrain->SetMaterial(globals::instance()->cache->GetResource<Material>("Materials/Terrain_quad_dsnh.xml"));
+        terrain->SetMaterial(globals::instance()->cache->GetResource<Material>("Materials/Terrain.xml"));
         terrain->SetCastShadows(true);
         terrain->SetOccluder(true);
     }
-
-//    gui.reset(new urho3d_3dgui(globals::instance()->camera,globals::instance()->cache));
-//    gui->add_box(Vector3(0,0,0),Vector3(0.5,0.2,1))->SetColor(Color(.0,.15,.3,.5));
 
     SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(gs_main_menu,update));
     SubscribeToEvent(E_KEYDOWN,URHO3D_HANDLER(gs_main_menu,HandleKeyDown));
@@ -201,8 +209,6 @@ gs_main_menu::gs_main_menu() : game_state()
 
 void gs_main_menu::update(StringHash eventType,VariantMap& eventData)
 {
-//    if(gui)
-//        gui->resize();
     float timeStep=eventData[Update::P_TIMESTEP].GetFloat();
 
     static double last_second=0;
@@ -226,8 +232,6 @@ void gs_main_menu::update(StringHash eventType,VariantMap& eventData)
     }
     String s(str.c_str(),str.size());
     window_text->SetText(s);
-
-    node_rotating_flag->Rotate(Quaternion(0,64*timeStep,0));
 
     // Movement speed as world units per second
     float MOVE_SPEED=10.0f;
@@ -253,11 +257,12 @@ void gs_main_menu::update(StringHash eventType,VariantMap& eventData)
         IntVector2 mouseMove=input->GetMouseMove();
         if(mouseMove.x_>-2000000000&&mouseMove.y_>-2000000000)
         {
-            static float yaw_=0;
-            static float pitch_=0;
+            static float yaw_=84;
+            static float pitch_=64;
             yaw_+=MOUSE_SENSITIVITY*mouseMove.x_;
             pitch_+=MOUSE_SENSITIVITY*mouseMove.y_;
             pitch_=Clamp(pitch_,-90.0f,90.0f);
+
             // Reset rotation and set yaw and pitch again
             cameraNode_->SetDirection(Vector3::FORWARD);
             cameraNode_->Yaw(yaw_);

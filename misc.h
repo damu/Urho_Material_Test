@@ -2,6 +2,7 @@
 #define MISC_H
 
 #include <string>
+#include <sstream>
 #include <memory>
 #include <vector>
 #include <map>
@@ -63,17 +64,29 @@ public:
 /// model_name is supposed to have no file extension. Example: "Data/Models/Box", loads the model "Data/Models/Box.mdl".
 /// It's a template to support all model classes like AnimatedModel and StaticModel.
 template<typename T>
-void set_model(T* model,Urho3D::ResourceCache* cache,std::string model_name)
+void set_model(T* model,Urho3D::ResourceCache* cache,Urho3D::String model_name)
 {
-    std::string filename_model=model_name;
-    model->SetModel(cache->GetResource<Urho3D::Model>(Urho3D::String(filename_model.append(".mdl").c_str())));
-    std::string filename_txt=model_name;
-    filename_txt.append(".txt");
-    std::ifstream file(filename_txt);
+    Urho3D::String filename_model=model_name;
+    model->SetModel(cache->GetResource<Urho3D::Model>(filename_model.Append(".mdl")));
+    Urho3D::String filename_txt=model_name;
+    filename_txt.Append(".txt");
+    Urho3D::SharedPtr<Urho3D::File> file=cache->GetFile(filename_txt);
+
+    if(!file->IsOpen())
+        return;
+
+    std::string str;
+    str.resize(10000);
+    str.resize(file->Read((void*)str.data(),(unsigned)str.size()));
+
+    std::stringstream ss(str);
     std::string line;
-    if(file.is_open())
-        for(int i=0;getline(file,line);i++)
-            model->SetMaterial(i,cache->GetResource<Urho3D::Material>(Urho3D::String(line.c_str())));
+    for(int i=0;getline(ss,line);i++)
+    {
+        if(line[line.size()-1]=='\r')
+            line.resize(line.size()-1);
+        model->SetMaterial(i,cache->GetResource<Urho3D::Material>(Urho3D::String(line.c_str(),line.size())));
+    }
 }
 
 /// \brief For reading and storing the best level times.

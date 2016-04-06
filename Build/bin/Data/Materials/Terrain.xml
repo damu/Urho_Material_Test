@@ -1,0 +1,13 @@
+<material>
+    <technique name="Techniques/Terrain.xml" />
+    <texture unit="0" name="Textures/TerrainSplatting.png" />
+    <texture unit="1" name="Textures/TerrainArray.xml"/>
+    <parameter name="MatDiffColor1" value="1.0 1.0 1.0 1" />
+    <parameter name="MatDiffColor2" value="1.3 1.1 1.1 1" />
+    <parameter name="MatDiffColor3" value="1.0 1.0 1.5 1" />
+    <parameter name="MatSpecColor1" value="1.0 1.0 1.0 10" />
+    <parameter name="MatSpecColor2" value="2.5 2.2 2.2 100" />
+    <parameter name="MatSpecColor3" value="0.7 0.7 0.7 50" />
+    <parameter name="MatSpecColor" value="1.3 1.3 1.3 100" />
+    <parameter name="DetailTiling" value="256 256" />
+</material>

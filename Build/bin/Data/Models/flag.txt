@@ -1,2 +1,0 @@
-Materials/flag_pole.xml
-Materials/flag_cloth.xml

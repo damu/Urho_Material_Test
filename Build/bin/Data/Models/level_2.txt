@@ -1,2 +1,0 @@
-Materials/level_2_stone.xml
-Materials/level_2_sand.xml

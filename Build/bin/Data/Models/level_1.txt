@@ -1,3 +1,0 @@
-Materials/level_1_mushroom.xml
-Materials/level_1_terrain.xml
-Materials/level_1_white_walls.xml

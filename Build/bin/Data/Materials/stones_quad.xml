@@ -1,7 +1,0 @@
-<material>
-	<technique name="Techniques/quad.xml"/>
-	<texture name="Textures/blender_grass_quad.jpg" unit="diffuse"/>
-	<parameter name="MatDiffColor" value="1.0 1.0 1.0 1"/>
-	<parameter name="MatSpecColor" value="0.7 0.7 0.7 100"/>
-</material>
-
