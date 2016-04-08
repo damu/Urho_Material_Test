@@ -8,7 +8,6 @@
 #include <map>
 #include <chrono>
 #include <iostream>
-#include <fstream>
 
 #include <Urho3D/Urho3D.h>
 #include <Urho3D/Engine/Application.h>
@@ -88,52 +87,5 @@ void set_model(T* model,Urho3D::ResourceCache* cache,Urho3D::String model_name)
         model->SetMaterial(i,cache->GetResource<Urho3D::Material>(Urho3D::String(line.c_str(),line.size())));
     }
 }
-
-/// \brief For reading and storing the best level times.
-/// They are stored in a simple text file with a value pair in each line and a comma seperating the two values.
-class map_times
-{
-    std::map<std::string,float> values;
-public:
-    map_times()
-    {
-        std::ifstream file("highscores.txt");
-        std::string line;
-        while(getline(file,line))
-        {
-            int comma=line.find(',');
-            if(comma!=std::string::npos)
-            {
-                std::string time=line.substr(comma+1);
-                values[line.substr(0,comma)]=std::stof(time);
-            }
-        }
-    }
-
-    float get(std::string level_name)
-    {
-        int pos=level_name.rfind('/')+1;
-        if(pos!=std::string::npos)
-            level_name=level_name.substr(pos);
-        return values[level_name];
-    }
-
-    /// \brief Inserts the given values and trims the level_name to avoid issues.
-    void insert(std::string level_name,float time)
-    {
-        int pos=level_name.rfind('/')+1;
-        if(pos!=std::string::npos)
-            level_name=level_name.substr(pos);
-        values[level_name]=time;
-    }
-
-    void save()
-    {
-        std::ofstream file("highscores.txt",std::ofstream::trunc);
-        for(auto& p:values)
-            if(p.second>0)
-                file<<p.first<<","<<p.second<<"\n";
-    }
-};
 
 #endif // MISC_H
