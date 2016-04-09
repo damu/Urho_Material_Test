@@ -149,6 +149,7 @@ node_camera->SetPosition(Vector3(-26.7,7,-48.6));
     }
 
     // grid of cubes
+    if(false)
     for(int x=-20;x<20;x+=3)
         for(int y=40;y<80;y+=3)
         {

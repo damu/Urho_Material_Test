@@ -8,7 +8,9 @@ void VS(float4 iPos : POSITION,
     #ifndef BILLBOARD
         float3 iNormal : NORMAL,
     #endif
-    float2 iTexCoord : TEXCOORD0,
+    #ifndef NOUV
+        float2 iTexCoord : TEXCOORD0,
+    #endif
     #ifdef VERTEXCOLOR
         float4 iColor : COLOR0,
     #endif
@@ -19,8 +21,11 @@ void VS(float4 iPos : POSITION,
     #ifdef INSTANCED
         float4x3 iModelInstance : TEXCOORD2,
     #endif
-    #ifdef BILLBOARD
+    #if defined(BILLBOARD) || defined(DIRBILLBOARD)
         float2 iSize : TEXCOORD1,
+    #endif
+    #ifdef DIRBILLBOARD
+        float4 iTangent : TANGENT,
     #endif
     out float2 oTexCoord : TEXCOORD0,
     out float4 oWorldPos : TEXCOORD3,
@@ -45,6 +50,11 @@ void VS(float4 iPos : POSITION,
     #endif
     out float4 oPos : OUTPOSITION)
 {
+    // Define a 0,0 UV coord if not expected from the vertex data
+    #ifdef NOUV
+    float2 iTexCoord = float2(0.0, 0.0);
+    #endif
+    
     float4x3 modelMatrix = iModelMatrix;
     float3 worldPos = GetWorldPos(modelMatrix);
     oPos = GetClipPos(worldPos);
@@ -96,7 +106,7 @@ void PS(float2 iTexCoord : TEXCOORD0,
         #ifdef SPOTLIGHT
             float4 iSpotPos : TEXCOORD5,
         #endif
-        #ifdef CUBEMASK
+        #ifdef POINTLIGHT
             float3 iCubeMaskVec : TEXCOORD5,
         #endif
     #else

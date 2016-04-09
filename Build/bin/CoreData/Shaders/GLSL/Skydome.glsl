@@ -2,7 +2,10 @@
 #include "Samplers.glsl"
 #include "Transform.glsl"
 
-varying vec3 vTexCoord;
+varying vec2 vTexCoord;
+
+uniform mat4 gl_ModelViewMatrix;
+uniform mat4 gl_ProjectionMatrix;
 
 void VS()
 {
@@ -10,10 +13,10 @@ void VS()
     vec3 worldPos = GetWorldPos(modelMatrix);
     gl_Position = GetClipPos(worldPos);
     gl_Position.z = gl_Position.w;
-    vTexCoord = iPos.xyz;
+    vTexCoord = iTexCoord.xy;
 }
 
 void PS()
-{
-    gl_FragColor = cMatDiffColor * textureCube(sDiffCubeMap, vTexCoord);
+{   
+    gl_FragColor = texture2D(sDiffMap, vTexCoord);       
 }
